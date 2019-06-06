@@ -112,5 +112,6 @@ Call the openAppDetails method, you can popover to guide the user to set the per
 # The last
 Peace, happiness, family harmony and good health to all.<br> 
 May world peace, no longer be burdened by war.<br> 
+If you need [lantern](https://github.com/getlantern/lantern) to F&Q ,enter my invitation code **YPH99Z5** ,to get three months of blue light pro![Download lantern]( https://github.com/getlantern/forum)<br> 
 If you have any questions, please timely feedback to me.<br> 
-If you like it, please thumb up.(￣▽￣)ｄ。
+If you like it, please thumb up.o(￣▽￣)ｄ。

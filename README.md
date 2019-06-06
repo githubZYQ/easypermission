@@ -111,5 +111,6 @@ EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE);
 # 最后
 祝所有人平安幸福、家庭和睦、身体健康。<br> 
 愿世界和平，不再被战争所累。<br> 
+如果你需要使用[蓝灯](https://github.com/getlantern/lantern)去F&Q查资料，输入我的邀请码 YPH99Z5 来获得三个月的蓝灯专业版！[立即下载]( https://github.com/getlantern/forum)<br> 
 有任何疑问，可以及时反馈给我；<br> 
 如果你觉得还不错，请点赞o(￣▽￣)ｄ。
