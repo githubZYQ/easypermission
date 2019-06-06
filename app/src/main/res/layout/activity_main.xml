@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <Button
+        android:id="@+id/buttonCheck"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="OnlyCheck" />
+
+    <Button
+        android:id="@+id/buttonOnlyApply"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttonCheck"
+        android:layout_centerHorizontal="true"
+        android:text="OnlyApply" />
+
+    <Button
+        android:id="@+id/buttonNeedResult"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttonOnlyApply"
+        android:layout_centerHorizontal="true"
+        android:text="needResult" />
+
+    <Button
+        android:id="@+id/buttonDisMissAsk"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttonNeedResult"
+        android:layout_centerHorizontal="true"
+        android:text="disMissAsk" />
+    <Button
+        android:id="@+id/buttonEndlessly"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/buttonNeedResult"
+        android:layout_centerHorizontal="true"
+        android:text="Endlessly" />
+
+
+</RelativeLayout>
