@@ -9,12 +9,12 @@ README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.
 那现在有一个好消息：<br> 
 这儿有一个方便Android中权限管理的库，你告诉它你需要的权限，然后再告诉它你想要执行什么，就可以了。
 ## 解释
-1.module-easypermissionlib是EasyPermission 的核心源码code；<br> 
-2.module-app是EasyPermission的一个使用demo；<br> 
+1.module-**easypermissionlib**是EasyPermission 的核心源码code；<br> 
+2.module-**app**是EasyPermission的一个使用demo；<br> 
 3.Jcenter目前我账户登录不进去，还没有上传，需要用的先下载lib去集成到自己项目里吧。
 # 集成方法
-下载源码，将easypermissionlib做为Android Library添加到自己的项目中；<br> 
-将要使用EasyPermission的Activity中的onRequestPermissionsResult,调用EasyPermissionHelper.getInstance().onRequestPermissionsResult即可；<br> 
+下载源码，将**easypermissionlib**做为Android Library添加到自己的项目中；<br> 
+将要使用EasyPermission的Activity中的**onRequestPermissionsResult**,调用EasyPermissionHelper.getInstance().onRequestPermissionsResult即可；<br> 
 如果你有BaseActivity，那么只需要在BaseActivity中设置一次即可。
 ````java
  @Override
@@ -27,20 +27,20 @@ README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.
 # 功能使用
 接下来看下怎么使用。
 ## 1.检测权限
-只需要调用EasyPermission的hasPermission方法,支持多个权限同时传入。
+只需要调用EasyPermission的**hasPermission**方法,支持多个权限同时传入。
 ````java
 EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE);
 ````
 ## 2.申请权限
 如果你在应用启动时需要申请权限，而且并不关注权限的结果，<br> 
-只需要调用EasyPermission的requestPermission方法，支持多个权限传入。<br> 
+只需要调用EasyPermission的**requestPermission**方法，支持多个权限传入。<br> 
 ````java
  EasyPermission.build().requestPermission(MainActivity.this, Manifest.permission.CALL_PHONE);
 ````
 ## 3.需要权限的结果
 如果你需要知道申请权限后用户的选择结果，同时去执行自己的方法myVoid(),<br> 
-那么在onPermissionsAccess中去做就可以了，<br> 
-在onPermissionsDismiss是用户拒绝了权限的反馈。
+那么在**onPermissionsAccess**中去做就可以了，<br> 
+在**onPermissionsDismiss**是用户拒绝了权限的反馈。
 ````java
  EasyPermission.build()
                 .mRequestCode(RC_CODE_CALLPHONE)
@@ -62,9 +62,9 @@ EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE);
 
 ````
 ## 4.有时用户拒绝了权限，而且禁止了弹出询问，我该怎么办？
-同上，只要在onDismissAsk中，就可以得到被禁止的结果，同时你要注意onDismissAsk默认返回false，<br> 
-如果你自己修改return true，将视为已经处理了禁止结果，将不再回调onPermissionsDismiss这个方法，<br> 
-调用openAppDetails方法，可以弹窗引导用户去设置界面设置权限，在onActivityResult中检查结果。
+同上，只要在**onDismissAsk**中，就可以得到被禁止的结果，同时你要注意**onDismissAsk**默认返回**false**，<br> 
+如果你自己修改**return true**，将视为已经处理了禁止结果，将不再回调**onPermissionsDismiss**这个方法，<br> 
+调用**openAppDetails**方法，可以弹窗引导用户去设置界面设置权限，在**onActivityResult**中检查结果。
 ````java
  EasyPermission easyPermission = EasyPermission.build()
                 .mRequestCode(RC_CODE_CALLPHONE)
@@ -111,6 +111,6 @@ EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE);
 # 最后
 祝所有人平安幸福、家庭和睦、身体健康。<br> 
 愿世界和平，不再被战争所累。<br> 
-如果你需要使用[蓝灯](https://github.com/getlantern/lantern)去F&Q查资料，输入我的邀请码 YPH99Z5 来获得三个月的蓝灯专业版！[立即下载]( https://github.com/getlantern/forum)<br> 
+如果你需要使用[蓝灯](https://github.com/getlantern/lantern)去F&Q查资料，输入我的邀请码 **YPH99Z5** 来获得三个月的蓝灯专业版！[立即下载]( https://github.com/getlantern/forum)<br> 
 有任何疑问，可以及时反馈给我；<br> 
 如果你觉得还不错，请点赞o(￣▽￣)ｄ。

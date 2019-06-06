@@ -10,12 +10,12 @@ There is a call authority, many places to use, you have to write every call auth
 Now here's the good news:<br> 
 There's a library for permissions management in Android where you tell it what permissions you need and then tell it what you want to execute.
 ## The Explain
-1.module-easypermissionlib is EasyPermission Core source code；<br> 
-2.module-app is one EasyPermission demo；<br> 
+1.module-**easypermissionlib** is EasyPermission Core source code；<br> 
+2.module-**app** is one EasyPermission demo；<br> 
 3.Jcenter:I can't log in my account at presen,not yet uploaded, need to use the first download lib to integrate into your own project.
 # Integration method
-Download the source code, easypermissionlib as Android Library to add to their own project;<br> 
-Going to use EasyPermission onRequestPermissionsResult in Activity, call EasyPermissionHelper. GetInstance (). OnRequestPermissionsResult can;<br> 
+Download the source code, **easypermissionlib** as Android Library to add to their own project;<br> 
+Going to use EasyPermission **onRequestPermissionsResult** in Activity, call EasyPermissionHelper. GetInstance (). OnRequestPermissionsResult can;<br> 
 If you have BaseActivity, you only need to set it up once in BaseActivity.
 ````java
  @Override
@@ -28,20 +28,20 @@ If you have BaseActivity, you only need to set it up once in BaseActivity.
 # Function using
 Now let's see how to use it.
 ## 1.To check the permission
-All you need to do is call the hasPermission method of EasyPermission, which allows multiple permissions to be passed in at the same time.
+All you need to do is call the **hasPermission** method of EasyPermission, which allows multiple permissions to be passed in at the same time.
 ````java
 EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE);
 ````
 ## 2.To apply for permission
 If you need to apply for permissions when your application starts, and you don't care about the result of permissions,<br> 
-You only need to call the requestPermission method of EasyPermission, which supports multiple permissions passing in.<br> 
+You only need to call the **requestPermission** method of EasyPermission, which supports multiple permissions passing in.<br> 
 ````java
  EasyPermission.build().requestPermission(MainActivity.this, Manifest.permission.CALL_PHONE);
 ````
 ## 3.Results that require permissions
 If you need to know the result of the user's selection after applying permission, while executing your own method myVoid(),<br> 
-So just do it in onPermissionsAccess,<br> 
-In onPermissionsDismiss is the user rejecting permission feedback.
+So just do it in **onPermissionsAccess**,<br> 
+In **onPermissionsDismiss** is the user rejecting permission feedback.
 ````java
  EasyPermission.build()
                 .mRequestCode(RC_CODE_CALLPHONE)
@@ -63,9 +63,9 @@ In onPermissionsDismiss is the user rejecting permission feedback.
 
 ````
 ## 4.Sometimes the user rejects the permission, and the popup request is forbidden, what should I do?
-Same as above, so long as in onDismissAsk, you can get the banned result, while you want to notice that onDismissAsk returns false by default,<br> 
-So if you modify return true yourself, you're going to look at it as having handled the ban result, you're not going to call back the onPermissionsDismiss method,<br> 
-Call the openAppDetails method, you can popover to guide the user to set the permissions in the interface, and check the results in the onActivityResult.
+Same as above, so long as in **onDismissAsk**, you can get the banned result, while you want to notice that **onDismissAsk** returns false by default,<br> 
+So if you modify return true yourself, you're going to look at it as having handled the ban result, you're not going to call back the **onPermissionsDismiss** method,<br> 
+Call the **openAppDetails** method, you can popover to guide the user to set the permissions in the interface, and check the results in the **onActivityResult**.
 ````java
  EasyPermission easyPermission = EasyPermission.build()
                 .mRequestCode(RC_CODE_CALLPHONE)
