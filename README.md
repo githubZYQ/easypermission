@@ -11,9 +11,26 @@ README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.
 ## 解释
 1.module-**easypermissionlib**是EasyPermission 的核心源码code；<br> 
 2.module-**app**是EasyPermission的一个使用demo；<br> 
-3.Jcenter目前我账户登录不进去，还没有上传，需要用的先下载lib去集成到自己项目里吧。
 # 集成方法
-下载源码，将**easypermissionlib**做为Android Library添加到自己的项目中；<br> 
+[![](https://jitpack.io/v/githubZYQ/easypermission.svg)](https://jitpack.io/#githubZYQ/easypermission)
+第一步. 添加JitPack
+将其添加到根build.gradle中.
+````groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+````
+	
+第二步. 添加依赖
+````groovy
+dependencies {
+	        implementation 'com.github.githubZYQ:easypermission:v1.0.0'
+	}
+````
+第三步.	调用 onRequestPermissionsResult().
 将要使用EasyPermission的Activity中的**onRequestPermissionsResult**,调用EasyPermissionHelper.getInstance().onRequestPermissionsResult即可；<br> 
 如果你有BaseActivity，那么只需要在BaseActivity中设置一次即可。
 ````java

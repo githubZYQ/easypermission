@@ -12,9 +12,26 @@ There's a library for permissions management in Android where you tell it what p
 ## The Explain
 1.module-**easypermissionlib** is EasyPermission Core source code；<br> 
 2.module-**app** is one EasyPermission demo；<br> 
-3.Jcenter:I can't log in my account at presen,not yet uploaded, need to use the first download lib to integrate into your own project.
 # Integration method
-Download the source code, **easypermissionlib** as Android Library to add to their own project;<br> 
+[![](https://jitpack.io/v/githubZYQ/easypermission.svg)](https://jitpack.io/#githubZYQ/easypermission)
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+````groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+````
+	
+Step 2. Add the dependency
+````groovy
+dependencies {
+	        implementation 'com.github.githubZYQ:easypermission:v1.0.0'
+	}
+````
+Step 3.	call onRequestPermissionsResult().
 Going to use EasyPermission **onRequestPermissionsResult** in Activity, call EasyPermissionHelper. GetInstance (). OnRequestPermissionsResult can;<br> 
 If you have BaseActivity, you only need to set it up once in BaseActivity.
 ````java
