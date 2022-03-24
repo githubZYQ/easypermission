@@ -1,0 +1,6 @@
+<resources>
+    <string name="setting_alert_title">The APP needs to be authorized</string>
+    <string name="setting_alert_message">Go to "APP info -> permissions" to grant!</string>
+    <string name="setting_alert_button_confirm">Understand</string>
+    <string name="setting_alert_button_cancel">Cancel</string>
+</resources>

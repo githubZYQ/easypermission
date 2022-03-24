@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EasyPermission</string>
+    <string name="button_only_check">ONLY CHECK</string>
+    <string name="button_only_apply">ONLY APPLY</string>
+    <string name="button_need_result">NEED RESULT</string>
+    <string name="button_result_dismiss_ask">DISMISSED TO ASK</string>
+    <string name="button_endlessly">ENDLESSLY</string>
+    <string name="button_request_with_explain">WITH EXPLAIN(Recommended)</string>
+    <string name="button_for_notification">Notification</string>
+    <string name="button_for_floatwindow">FloatWindow</string>
+    <string name="button_for_gps">GPS</string>
+    <string name="permission_explain_call">Call Phone - Give me the permission to dial the number for you</string>
+    <string name="permission_explain_camera">Camera - Give me the permission to photo for you</string>
+</resources>

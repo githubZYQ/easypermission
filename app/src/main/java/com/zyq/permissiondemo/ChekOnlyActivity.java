@@ -1,8 +1,11 @@
 package com.zyq.permissiondemo;
 
 import android.Manifest;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.zyq.easypermission.EasyPermission;
@@ -13,13 +16,19 @@ import com.zyq.easypermission.EasyPermission;
  * @author zyq
  * @date 2019 06 03
  */
-public class ChekOnlyActivity extends AppCompatActivity {
+public class ChekOnlyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chekonly);
         TextView textView = findViewById(R.id.textView);
-        textView.setText(EasyPermission.build().hasPermission(this, Manifest.permission.CALL_PHONE) ? "允许" : "拒绝");
+        textView.setText(EasyPermission.build().hasPermission(Manifest.permission.CAMERA) ? "已允许" : "未允许");
+        findViewById(R.id.btnRequest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext,RequestWithExplainActivity.class));
+            }
+        });
     }
 }

@@ -1,7 +1,7 @@
 package com.zyq.easypermission;
 
 /**
- * @author Zyq
+ * @author Zhang YanQiang
  * @date 2019/6/2　14:58.
  */
 public class EasyPermissionConfig {
@@ -14,5 +14,17 @@ public class EasyPermissionConfig {
      * Debug mode
      * 是否是debug模式
      */
-    public static final boolean DEBUG = false;
+    private static boolean DEBUG = false;
+
+    public static boolean isDebug() {
+        return DEBUG;
+    }
+
+    /**
+     * isDebug
+     * @return
+     */
+    public static void setDebug(boolean isDebug) {
+        DEBUG = isDebug;
+    }
 }

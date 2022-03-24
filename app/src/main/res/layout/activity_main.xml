@@ -3,47 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pageBackground"
     tools:context=".MainActivity">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/buttonCheck"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/button_only_check" />
 
-    <Button
-        android:id="@+id/buttonCheck"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="OnlyCheck" />
+            <Button
+                android:id="@+id/buttonOnlyApply"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_only_apply" />
 
-    <Button
-        android:id="@+id/buttonOnlyApply"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/buttonCheck"
-        android:layout_centerHorizontal="true"
-        android:text="OnlyApply" />
+            <Button
+                android:id="@+id/buttonNeedResult"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_need_result" />
 
-    <Button
-        android:id="@+id/buttonNeedResult"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/buttonOnlyApply"
-        android:layout_centerHorizontal="true"
-        android:text="needResult" />
-
-    <Button
-        android:id="@+id/buttonDisMissAsk"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/buttonNeedResult"
-        android:layout_centerHorizontal="true"
-        android:text="disMissAsk" />
-    <Button
-        android:id="@+id/buttonEndlessly"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/buttonNeedResult"
-        android:layout_centerHorizontal="true"
-        android:text="Endlessly" />
+            <Button
+                android:id="@+id/buttonDisMissAsk"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_result_dismiss_ask" />
+            <Button
+                android:id="@+id/buttonEndlessly"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_endlessly" />
+            <Button
+                android:id="@+id/buttonWithExplain"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_request_with_explain" />
+            <Button
+                android:id="@+id/buttonForNotification"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_for_notification" />
+            <Button
+                android:id="@+id/buttonForFloatWindow"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_for_floatwindow" />
+            <Button
+                android:id="@+id/buttonForGps"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:text="@string/button_for_gps" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
 
 </RelativeLayout>

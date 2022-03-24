@@ -1,8 +1,11 @@
 package com.zyq.easypermission;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
+import com.zyq.easypermission.bean.PermissionAlertInfo;
+
+import java.util.Arrays;
 
 /**
  * Permissions related to the implementation of some functions
@@ -10,7 +13,7 @@ import android.support.annotation.NonNull;
  * 请求权限的一些功能实现
  * 包括设置参数：code，结果，权限，mContext
  *
- * @author Zyq
+ * @author Zhang YanQiang
  * @date 2019/6/2　16:26.
  */
 public class EasyPermission {
@@ -22,14 +25,24 @@ public class EasyPermission {
     public static final int APP_SETTINGS_RC = 2048;
     /**
      * The code to request permission
-     * 请求code
+     * 请求code 默认2048
      */
-    private int mRequestCode = 1;
+    private int mRequestCode = APP_SETTINGS_RC;
     /**
      * Request a callback for permissions
      * 请求权限的结果回调
      */
     private EasyPermissionResult mResult = null;
+    /**
+     * Request permission message
+     * 请求权限的提示信息
+     */
+    private PermissionAlertInfo mAlertInfo = null;
+    /**
+     * Automatically opens the APP's permission details Settings, when Permissions refused to be asked
+     * 当被禁止时，是否自动打开 APP 的权限详情设置提示弹框，默认为true
+     */
+    private boolean autoOpenAppDetails = true;
     /**
      * Context in which permission is requested
      * 当前activity
@@ -54,8 +67,9 @@ public class EasyPermission {
      *
      * @param mContext
      */
-    public void setContext(@NonNull Activity mContext) {
+    public EasyPermission setContext(@NonNull Activity mContext) {
         this.mContext = mContext;
+        return this;
     }
 
     protected String[] getPerms() {
@@ -68,12 +82,36 @@ public class EasyPermission {
      *
      * @param mPerms
      */
-    public void setPerms(@NonNull String[] mPerms) {
+    public EasyPermission setPerms(@NonNull String[] mPerms) {
         this.mPerms = mPerms;
+        return this;
     }
 
-    protected int getRequestCode() {
+    public int getRequestCode() {
         return mRequestCode;
+    }
+
+    public PermissionAlertInfo getAlertInfo() {
+        return mAlertInfo;
+    }
+
+    public EasyPermission setAlertInfo(PermissionAlertInfo mAlertInfo) {
+        this.mAlertInfo = mAlertInfo;
+        return this;
+    }
+
+    public boolean isAutoOpenAppDetails() {
+        return autoOpenAppDetails;
+    }
+
+    /**
+     * Setting whether to automatically open APP permission details Setting prompt box
+     * 设置是否自动打开 APP 的权限详情设置提示弹框
+     * @param autoOpenAppDetails
+     */
+    public EasyPermission setAutoOpenAppDetails(boolean autoOpenAppDetails) {
+        this.autoOpenAppDetails = autoOpenAppDetails;
+        return this;
     }
 
     /**
@@ -83,8 +121,9 @@ public class EasyPermission {
      * @param requestCode A value of 0 means no callback is required
      * @return
      */
-    public void setRequestCode(int requestCode) {
+    public EasyPermission setRequestCode(int requestCode) {
         this.mRequestCode = requestCode;
+        return this;
     }
 
     protected EasyPermissionResult getResult() {
@@ -98,8 +137,10 @@ public class EasyPermission {
      * @param result Null means no callback is required 空表示不需要回调
      * @return
      */
-    public void setResult(EasyPermissionResult result) {
+    public EasyPermission setResult(EasyPermissionResult result) {
         this.mResult = result;
+        mResult.setEasyPermission(this);
+        return this;
     }
 
     /**
@@ -133,6 +174,7 @@ public class EasyPermission {
      */
     public EasyPermission mResult(EasyPermissionResult result) {
         this.mResult = result;
+        mResult.setEasyPermission(this);
         return this;
     }
 
@@ -161,44 +203,62 @@ public class EasyPermission {
     }
 
     /**
+     * set PermissionAlertInfo
+     * 设置请求的权限提示信息
+     *
+     * @param mAlertInfo
+     * @return
+     */
+    public EasyPermission mAlertInfo(@NonNull PermissionAlertInfo mAlertInfo) {
+        this.mAlertInfo = mAlertInfo;
+        return this;
+    }
+
+    /**
      * Check the current permissions
      * 检查当前的权限
      *
-     * @param context
+     * @return
+     */
+    public boolean hasPermission() {
+        return EasyPermissionHelper.getInstance().hasPermission(mPerms);
+    }
+
+
+    /**
+     * Check the current permissions
+     * 检查当前的权限
+     *
      * @param permissions
      * @return
      */
-    public boolean hasPermission(@NonNull Context context, @NonNull String... permissions) {
-        return EasyPermissionHelper.getInstance().hasPermission(context, permissions);
+    public boolean hasPermission(@NonNull String... permissions) {
+        mPerms = permissions;
+        return EasyPermissionHelper.getInstance().hasPermission(permissions);
     }
 
     /**
      * Denied permission and forbidden to ask
-     * This is only useful in callbacks that apply callback authority
-     * 权限被拒绝且禁止询问
-     * 只有在申请的回调中使用
+     * 权限被拒绝且禁止询问(本地记录了被禁止过的)
      *
-     * @param context
-     * @param permission
+     *
+     * @param permissions 有一个被禁止即返回true
      * @return
      */
-    protected boolean hasDismissAsk(@NonNull Activity context, @NonNull String permission) {
-        return EasyPermissionHelper.getInstance().hasDismissAsk(context, permission);
+    protected boolean hasDismissAsk(@NonNull String... permissions) {
+        mPerms = permissions;
+        return EasyPermissionHelper.getInstance().hasDismissAsk(permissions);
     }
-
     /**
-     * Determine whether the permission can be queried
-     * return true when user is prompted for permission function, or false in other cases
-     * returns fasle before first requesting permission
-     * 判断该权限能否询问
-     * 需要提示用户权限功能时返回true，其它情况返回false
-     * 第一次请求权限前也返回fasle
+     * To apply for permission
+     * 申请权限
      *
-     * @param context
-     * @param permission
+     * @param permissions
+     * @return
      */
-    public boolean shouldShowRequestPermissionRationale(@NonNull Activity context, String permission) {
-        return EasyPermissionHelper.getInstance().shouldShowRequestPermissionRationale(context, permission);
+    public EasyPermission requestPermission(@NonNull String... permissions) {
+        this.requestPermission(mContext,permissions);
+        return this;
     }
 
     /**
@@ -209,30 +269,44 @@ public class EasyPermission {
      * @param permissions
      * @return
      */
-    public void requestPermission(@NonNull Activity context, @NonNull String... permissions) {
+    public EasyPermission requestPermission(@NonNull Activity context, @NonNull String... permissions) {
+        if(context != null){
+            this.mContext = context;
+        }
+        mPerms = permissions;
+        if(permissions == null || permissions.length == 0){
+            EasyPermissionLog.d("permissions.length == 0");
+            return this;
+        }
         if (mResult == null) {
             //If you have access, you don't need to apply
             //如果权限都有了，不需要申请
-            if (hasPermission(context, permissions)) {
-                return;
+            if (hasPermission(permissions)) {
+                //Do nothing
+                //什么也不需要做了
+            }else {
+                //Request permission but no permission result callback is required
+                //申请权限但是不需要权限结果回调
+                EasyPermissionHelper.getInstance().requestPermission(this);
             }
-            //Request permission but no permission result callback is required
-            //申请权限但是不需要权限结果回调
-            EasyPermissionHelper.getInstance().requestPermission(context, permissions);
-            return;
+        }else{
+            if (hasPermission(permissions)) {
+                //If all permissions are available, call back directly
+                //如果权限都有了，直接回调
+                mResult.onPermissionsAccess(mRequestCode);
+            }else if(EasyPermissionHelper.getInstance().haveBeanDismissAsk(permissions)){
+                //If all permissions are dismissed to ask, call back directly
+                //如果权限被禁止，直接回调
+                mResult.onDismissAsk(mRequestCode, Arrays.asList(permissions));
+            }else {
+                this.mContext = context;
+                this.mPerms = permissions;
+                //执行申请权限
+                //Execute application authority
+                EasyPermissionHelper.getInstance().requestPermission(this);
+            }
         }
-        //If all permissions are available, call back directly
-        //如果权限都有了，直接回调
-        if (hasPermission(context, permissions)) {
-            mResult.onPermissionsAccess(mRequestCode);
-            return;
-        }
-        this.mContext = context;
-        this.mPerms = permissions;
-        //执行申请权限
-        //Execute application authority
-        EasyPermissionHelper.getInstance().requestPermission(context, mRequestCode, mResult, mPerms);
-
+        return this;
     }
 
     /**
@@ -240,32 +314,62 @@ public class EasyPermission {
      * The corresponding parameters have been set
      * 申请权限，使用当前已有的参数
      * 已经设置好相应的参数
+     * 如果设置了提示信息PermissionAlertInfo，因为需要弹窗提示，建议在onResume()之后执行
      *
      * @return
      */
-    public void requestPermission() {
-        if (mContext == null) {
-            return;
-        }
+    public EasyPermission requestPermission() {
         if (mPerms == null) {
-            return;
+            return this;
         }
-        requestPermission(mContext, mPerms);
+        requestPermission(mPerms);
+        return this;
     }
 
     /**
      * Open the APP's permission details Settings
      * 打开 APP 的权限详情设置
+     * @param permissionShow 权限描述 推荐样式“定位-帮助您推荐上车地点”
+     *                       Permission description recommended style "location - help you recommend places to get on"
      */
-    public void openAppDetails(@NonNull final Activity context, String... permissionShow) {
-        EasyPermissionHelper.getInstance().openAppDetails(context, permissionShow);
+    public void openAppDetails(String... permissionShow) {
+        Activity topActivity = EasyPermissionHelper.getInstance().getTopActivity();
+        String title = topActivity.getString(R.string.setting_alert_title);
+        String message = topActivity.getString(R.string.setting_alert_message);
+        StringBuilder msg = new StringBuilder();
+        if (permissionShow != null && permissionShow.length > 0) {
+            for (int i = 0; i < permissionShow.length; i++) {
+                msg.append(permissionShow[i]);
+                msg.append("\n");
+            }
+        }
+        msg.append(message);
+        this.mAlertInfo = new PermissionAlertInfo(title,msg.toString());
+        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
     }
+
     /**
      * Open the APP's permission details Settings
      * 打开 APP 的权限详情设置
+     * @param alertInfo 附带弹窗提示
      */
-    public void openAppDetailsForEn(@NonNull final Activity context, String... permissionShow) {
-        EasyPermissionHelper.getInstance().openAppDetailsForEn(context, permissionShow);
+    public void openAppDetails(PermissionAlertInfo alertInfo) {
+        this.mAlertInfo = alertInfo;
+        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
+    }
+    /**
+     * Open the APP's permission details Settings
+     * 打开 APP 的权限详情设置提示弹框
+     */
+    public void openAppDetails() {
+        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
+    }
+    /**
+     * Skip To the Settings
+     * 跳转设置页
+     */
+    public void goToAppSettings() {
+        EasyPermissionHelper.getInstance().goToAppSettings(this);
     }
 
 }

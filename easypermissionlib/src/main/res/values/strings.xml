@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">EasypermissionLib</string>
+    <string name="setting_alert_title">需要给该应用授权</string>
+    <string name="setting_alert_message">请到 “应用信息 -> 权限” 中授予！</string>
+    <string name="setting_alert_button_confirm">去打开</string>
+    <string name="setting_alert_button_cancel">取消</string>
 </resources>

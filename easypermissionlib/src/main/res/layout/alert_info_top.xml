@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:background="@color/theme_blue">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/bg_alert_white_shape8"
+        android:paddingBottom="15dp">
+        <TextView
+            android:id="@+id/tvAlertTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:text="**App 需要照相机权限"
+            android:layout_marginTop="15dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tvAlertMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#333333"
+            android:lineSpacingMultiplier="1.2"
+            android:text="**App 需要照相机权限以便您能实现扫一扫、上传照片等功能。拒绝或取消授权将影响以上功能的使用，不影响使用其他服务。"
+            android:layout_marginTop="15dp"
+            android:textSize="12sp"/>
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

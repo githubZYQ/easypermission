@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_alert_white_shape8"
+    android:gravity="center_horizontal"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+    <TextView
+        android:id="@+id/tvAlertTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="**App 需要照相机权限"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/tvAlertMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#333333"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:lineSpacingMultiplier="1.2"
+        android:text="**App 需要照相机权限以便您能实现扫一扫、上传照片等功能。拒绝或取消授权将影响以上功能的使用，不影响使用其他服务。"
+        android:layout_marginTop="15dp"
+        android:textSize="13sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:background="@drawable/bg_button_blueline_shape20"
+            android:textColor="@color/theme_blue"
+            android:text="@string/setting_alert_button_cancel"
+            android:gravity="center"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="30dp"
+            android:layout_height="35dp"
+            android:background="@drawable/bg_button_blue_shape20"
+            android:textColor="@color/white"
+            android:text="@string/setting_alert_button_confirm"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

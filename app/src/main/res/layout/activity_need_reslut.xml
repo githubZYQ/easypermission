@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/pageBackground"
     tools:context="com.zyq.permissiondemo.NeedReslutActivity">
 
 
@@ -14,4 +15,17 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="loading" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRequest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="再次请求"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnShowResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnRequest"
+        android:text="查看结果"/>
 </RelativeLayout>

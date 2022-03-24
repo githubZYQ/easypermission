@@ -1,6 +1,6 @@
 package com.zyq.easypermission;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -8,10 +8,31 @@ import java.util.List;
  * Request permission result callback
  * 请求权限结果回调
  *
- * @author Zyq
+ * @author Zhang YanQiang
  * @date 2019/6/2　14:55.
  */
 public abstract class EasyPermissionResult {
+    /**
+     * The currently bound permission application object
+     * 当前绑定的权限申请对象
+     */
+    public EasyPermission mEasyPermission = null;
+
+    public EasyPermissionResult() {
+    }
+
+    public EasyPermission getEasyPermission() {
+        return mEasyPermission;
+    }
+
+    /**
+     * Bind the permission application object for subsequent invocation
+     * 绑定权限申请对象，方便后续调用
+     * @param mEasyPermission
+     */
+    public void setEasyPermission(EasyPermission mEasyPermission) {
+        this.mEasyPermission = mEasyPermission;
+    }
 
     /**
      * Permissions allowed
@@ -37,7 +58,7 @@ public abstract class EasyPermissionResult {
     }
     /**
      * Permissions are simply refused to be asked
-     * 权限被直接拒绝询问
+     * 权限被直接拒绝询问,如果设置了mAlertInfo并且autoOpenAppDetails = true,就会自动处理，不需要再单独处理
      *
      * @param requestCode 请求的code
      * @param permissions 被拒绝的权限
@@ -47,6 +68,36 @@ public abstract class EasyPermissionResult {
      */
     public boolean onDismissAsk(int requestCode, @NonNull List<String> permissions) {
         EasyPermissionLog.d("onDismissAsk：code =" + requestCode + " " + permissions.toString());
-        return false;
+        if(autoOpenDialog()){
+            openAppDetails();
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    /**
+     * Open the APP's permission details Settings
+     * 打开 APP 的权限详情设置提示弹框
+     */
+    public void openAppDetails(){
+        if(mEasyPermission != null){
+            mEasyPermission.openAppDetails();
+        }
+    }
+
+    /**
+     * Determines whether the current request opens the Settings popup automatically
+     * 判断当前请求是否自动打开设置弹窗
+     * @return
+     */
+    private boolean autoOpenDialog(){
+        if(mEasyPermission == null){
+            return false;
+        }else if(mEasyPermission.getAlertInfo() == null){
+            return false;
+        }else {
+            return mEasyPermission.isAutoOpenAppDetails();
+        }
     }
 }
