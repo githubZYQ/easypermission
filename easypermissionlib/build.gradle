@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.gitee.zhang-yanqiang'
+//group='com.gitee.zhang-yanqiang'
 
 android {
     compileSdkVersion 30
