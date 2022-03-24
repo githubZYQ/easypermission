@@ -1,5 +1,5 @@
 # EasyPermission
-README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.md) | [English](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README-en.md)
+README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.md) | [English](https://github.com/githubZYQ/easypermission/blob/master/README-en.md)
 # Introduction to the EasyPermission
 * This is a convenient library for permission management in Android, which makes application permission and business code logic be separated easily, 
 and does not care about permission application and callback.
