@@ -1,5 +1,5 @@
 # EasyPermission
-README: [中文](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README.md) | [English](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README-en.md)
+README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.md) | [English](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README-en.md)
 # EasyPermission简介
 * 这个是一个方便Android中权限管理的库，它使得申请权限和业务代码逻辑简单分离，不去关心权限的申请和回调。<br>
 * 将安卓动态权限的申请和判断简单到一句话就能完成：<br>
@@ -25,7 +25,7 @@ requestPermission(Manifest.permission.CAMERA)<br>
 2. module-**app**是EasyPermission的一个使用demo；<br> 
 # 集成方法
 最新版本
-[![最新版本](https://jitpack.io/v/com.gitee.zhang-yanqiang/easypermission.svg)](https://jitpack.io/#com.gitee.zhang-yanqiang/easypermission)
+[![最新版本](https://jitpack.io/v/githubZYQ/easypermission.svg)](https://jitpack.io/#githubZYQ/easypermission)
 ## 第一步. 添加JitPack
 将其添加到根build.gradle中.
 ````groovy
@@ -40,7 +40,7 @@ allprojects {
 ## 第二步. 添加依赖
 ````groovy
 dependencies {
-	        implementation 'com.gitee.zhang-yanqiang:easypermission:v2.0.8'
+	        implementation 'com.github.githubZYQ:easypermission:v2.0.8'
 	}
 ````
 ## 第三步. 初始化配置

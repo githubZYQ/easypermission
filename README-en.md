@@ -1,5 +1,5 @@
 # EasyPermission
-README: [中文](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README.md) | [English](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README-en.md)
+README: [中文](https://github.com/githubZYQ/easypermission/blob/master/README.md) | [English](https://gitee.com/zhang-yanqiang/easypermission/blob/master/README-en.md)
 # Introduction to the EasyPermission
 * This is a convenient library for permission management in Android, which makes application permission and business code logic be separated easily, 
 and does not care about permission application and callback.
@@ -27,7 +27,7 @@ requestPermission(Manifest.permission.CAMERA)<br>
 2. module-**app** is one EasyPermission demo；<br> 
 # Integration method
 The latest version
-[![The latest version](https://jitpack.io/v/com.gitee.zhang-yanqiang/easypermission.svg)](https://jitpack.io/#com.gitee.zhang-yanqiang/easypermission)
+[![The latest version](https://jitpack.io/v/githubZYQ/easypermission.svg)](https://jitpack.io/#githubZYQ/easypermission)
 ## Step 1. Add the JitPack repository to your build file
 Add it in your root build.gradle at the end of repositories:
 ````groovy
@@ -42,7 +42,7 @@ allprojects {
 ## Step 2. Add the dependency
 ````groovy
 dependencies {
-        implementation 'com.gitee.zhang-yanqiang:easypermission:v2.0.8'
+        implementation 'com.github.githubZYQ:easypermissionn:v2.0.8'
 	}
 ````
 ## Step 3.	Initial Configuration.
