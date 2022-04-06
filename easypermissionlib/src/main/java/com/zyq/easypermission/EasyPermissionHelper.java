@@ -1,15 +1,11 @@
 package com.zyq.easypermission;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,25 +13,18 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.ViewUtils;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.tencent.mmkv.MMKV;
 import com.zyq.easypermission.bean.EasyAppSettingDialogStyle;
+import com.zyq.easypermission.bean.EasyTopAlertStyle;
 import com.zyq.easypermission.bean.PermissionAlertInfo;
-import com.zyq.easypermission.util.EasyAlphaTouchListener;
-import com.zyq.easypermission.util.EasyAppSettingDialogTool;
+import com.zyq.easypermission.util.EasyAppDialogTool;
 import com.zyq.easypermission.util.EasyCacheData;
-import com.zyq.easypermission.util.EasyViewUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -95,6 +84,11 @@ public class EasyPermissionHelper {
      * 设置弹窗样式
      */
     private EasyAppSettingDialogStyle mDialogStyle;
+    /**
+     * Set the top prompt style
+     * 设置顶部提示样式
+     */
+    private EasyTopAlertStyle mTopAlertStyle;
 
     /**
      * Privatize constructors
@@ -178,10 +172,20 @@ public class EasyPermissionHelper {
     }
 
     /**
-     * Set the popover style
-     * 设置弹窗样式，将影响 {@link #showDialog(int, PermissionAlertInfo)}
-     * @param mDialogStyle {@link EasyAppSettingDialogStyle}
+     * Set the top prompt style
+     * 设置顶部提示样式，将影响 {@link #showAlert(PermissionAlertInfo)}
+     * @param mTopAlertStyle {@link EasyTopAlertStyle}
      * 
+     */
+    public void setTopAlertStyle(EasyTopAlertStyle mTopAlertStyle) {
+        this.mTopAlertStyle = mTopAlertStyle;
+    }
+
+    /**
+     * Set the popover style
+     * 设置弹窗样式，将影响 {@link #showDialog(EasyPermission)}
+     * @param mDialogStyle {@link EasyAppSettingDialogStyle}
+     *
      */
     public void setDialogStyle(EasyAppSettingDialogStyle mDialogStyle) {
         this.mDialogStyle = mDialogStyle;
@@ -247,7 +251,7 @@ public class EasyPermissionHelper {
      * @param permissions
      * @return
      */
-    protected boolean hasPermission(@NonNull String... permissions) {
+    public boolean hasPermission(@NonNull String... permissions) {
         //6.0以上才需要动态检查
         // above 6.0, dynamic check is required
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
@@ -344,6 +348,9 @@ public class EasyPermissionHelper {
         this.requestPermission(requestCode, mAlertInfo, permissions);
     }
 
+    /**
+     * 顶部提示框
+     */
     private Dialog alertDialog;
 
     /**
@@ -354,28 +361,35 @@ public class EasyPermissionHelper {
         if (mAlertInfo == null || TextUtils.isEmpty(mAlertInfo.alertMessage)) {
             return;
         }
+        //避免弹出多个
+        if(alertDialog != null && alertDialog.isShowing()){
+            alertDialog.dismiss();
+        }
         Activity topActivity = getTopActivity();
         if(topActivity == null) return;
         EasyPermissionLog.d("showAlert："+topActivity.getLocalClassName());
-        View alertView = View.inflate(topActivity, R.layout.alert_info_top, null);
-        alertDialog = new Dialog(topActivity, R.style.theme_alertdialog_transparent);
-        alertDialog.setOwnerActivity(topActivity);
-        TextView titleView = alertView.findViewById(R.id.tvAlertTitle);
-        titleView.setText(mAlertInfo.alertTitle);
-        TextView messageView = alertView.findViewById(R.id.tvAlertMessage);
-        messageView.setText(mAlertInfo.alertMessage);
-        Window win = alertDialog.getWindow();
-//        int with = EasyViewUtil.getScreenWidth(topActivity);
-//        int side = EasyViewUtil.dip2px(topActivity,5);
-        win.getDecorView().setPadding(0, 0, 0, 0);
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        lp.gravity = Gravity.TOP;
-        win.setAttributes(lp);
-        alertDialog.getWindow().setBackgroundDrawable(new BitmapDrawable(topActivity.getResources(), (Bitmap) null));
-        alertDialog.setContentView(alertView);
-        alertDialog.show();
+        alertDialog = EasyAppDialogTool.showTopAlertStyle(mAlertInfo,mTopAlertStyle);
+
+//
+//        View alertView = View.inflate(topActivity, R.layout.alert_info_top, null);
+//        alertDialog = new Dialog(topActivity, R.style.theme_alertdialog_transparent);
+//        alertDialog.setOwnerActivity(topActivity);
+//        TextView titleView = alertView.findViewById(R.id.tvAlertTitle);
+//        titleView.setText(mAlertInfo.alertTitle);
+//        TextView messageView = alertView.findViewById(R.id.tvAlertMessage);
+//        messageView.setText(mAlertInfo.alertMessage);
+//        Window win = alertDialog.getWindow();
+////        int with = EasyViewUtil.getScreenWidth(topActivity);
+////        int side = EasyViewUtil.dip2px(topActivity,5);
+//        win.getDecorView().setPadding(0, 0, 0, 0);
+//        WindowManager.LayoutParams lp = win.getAttributes();
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+//        lp.gravity = Gravity.TOP;
+//        win.setAttributes(lp);
+//        alertDialog.getWindow().setBackgroundDrawable(new BitmapDrawable(topActivity.getResources(), (Bitmap) null));
+//        alertDialog.setContentView(alertView);
+//        alertDialog.show();
     }
 
     /**
@@ -406,27 +420,27 @@ public class EasyPermissionHelper {
      * Permissions are disabled from pop-ups
      * 权限被禁止弹窗
      */
-    private void showDialog(final int requestCode, PermissionAlertInfo mAlertInfo) {
+    private void showDialog(EasyPermission easyPermission) {
         if(mDialogStyle == null){
             //默认样式
             //The default styles
-            EasyAppSettingDialogTool.showDialogWithDefaultStyle(requestCode,mAlertInfo);
+            EasyAppDialogTool.showDialogWithDefaultStyle(easyPermission);
         }else {
             switch (mDialogStyle.getStyle()){
                 case STYLE_CUSTOM:
                     //自定义样式
                     //Custom styles
-                    EasyAppSettingDialogTool.showDialogWithCustomStyle(requestCode,mAlertInfo,mDialogStyle);
+                    EasyAppDialogTool.showDialogWithCustomStyle(easyPermission,mDialogStyle);
                     break;
                 case STYLE_SYSTEM:
                     //系统样式
                     //System style
-                    EasyAppSettingDialogTool.showDialogWithSystemStyle(requestCode,mAlertInfo);
+                    EasyAppDialogTool.showDialogWithSystemStyle(easyPermission);
                     break;
                 default:
                     //默认样式
                     //The default styles
-                    EasyAppSettingDialogTool.showDialogWithDefaultStyle(requestCode,mAlertInfo);
+                    EasyAppDialogTool.showDialogWithDefaultStyle(easyPermission);
                     break;
             }
         }
@@ -464,7 +478,7 @@ public class EasyPermissionHelper {
      *
      * @param permissions
      */
-    protected boolean haveBeanDismissAsk(String... permissions) {
+    public boolean hasBeanDismissAsk(String... permissions) {
         boolean tempDismissAsk = false;
         for (String permission : permissions) {
             //读取本地存储的被拒绝权限
@@ -507,9 +521,9 @@ public class EasyPermissionHelper {
      * @param permissions
      * @return
      */
-    protected boolean hasDismissAsk(@NonNull String... permissions) {
+    protected boolean hasDismissedAsk(@NonNull String... permissions) {
         return !hasPermission(permissions)
-                && haveBeanDismissAsk(permissions);
+                && hasBeanDismissAsk(permissions);
     }
 
     /**
@@ -518,13 +532,13 @@ public class EasyPermissionHelper {
      * 打开 APP 的权限详情设置
      * 在onActivityResult中接收requestCode的权限回调结果，重新执行权限相关逻辑
      */
-    protected void openAppDetailsDefaultStyle(@NonNull EasyPermission easyPermission) {
+    protected void openAppDetails(@NonNull EasyPermission easyPermission) {
         this.mCurrentEasyPermission = easyPermission;
         //更新请求的activity
         if(easyPermission.getContext() != null){
             updateTopActivity(easyPermission.getContext());
         }
-        showDialog(easyPermission.getRequestCode(), easyPermission.getAlertInfo());
+        showDialog(easyPermission);
     }
 
     /**
@@ -679,11 +693,11 @@ public class EasyPermissionHelper {
             if (mCurrentEasyPermission.hasPermission()) {
                 //权限已通过
                 //Permission approved
-                mCurrentEasyPermission.getResult().onPermissionsAccess(mCurrentEasyPermission.getRequestCode());
+                mCurrentEasyPermission.onPermissionsAccess();
             } else {
                 //从设置回来还是没给你权限
                 //You still didn't get permission from Settings
-                mCurrentEasyPermission.getResult().onPermissionsDismiss(mCurrentEasyPermission.getRequestCode(),Arrays.asList(mCurrentEasyPermission.getPerms()));
+                mCurrentEasyPermission.onPermissionsDismiss();
             }
         }
     }

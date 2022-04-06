@@ -42,7 +42,7 @@ allprojects {
 ## Step 2. Add the dependency
 ````groovy
 dependencies {
-        implementation 'com.github.githubZYQ:easypermissionn:v2.0.8'
+        implementation 'com.github.githubZYQ:easypermission:v2.0.13'
 	}
 ````
 ## Step 3.	Initial Configuration.
@@ -146,7 +146,7 @@ public boolean onDismissAsk(int requestCode, @NonNull List<String> permissions) 
 public void openAppDetails() {
         //A dialog box is displayed asking you to set the default permission details. After the permission operation is complete on the Settings page, the system automatically calls back toonPermissionsAccess()
         super.openAppDetails();
-        //If the style is not satisfactory, you can pop up your own description popover and call "easyPermission.goToAppSettings()" when the user confirms;then jump Settings page is complete
+        //If the style is not satisfactory, you can pop up your own description popover and call "goToAppSettings()" when the user confirms;then jump Settings page is complete
         }
         ).requestPermission();
 ````
@@ -165,13 +165,13 @@ EasyPermissionHelper.getInstance().setDialogStyle(new EasyAppSettingDialogStyle(
 EasyPermissionHelper.getInstance().setDialogStyle(
         new EasyAppSettingDialogStyle(EasyAppSettingDialogStyle.DialogStyle.STYLE_CUSTOM)
         .setTitleGravity(Gravity.CENTER)//设置居中
-        .setTitleSize(17)//设置标题
+        .setTitleSize(17)//设置标题样式
         .setTitleColor("#333333")
-        .setMessageSize(14)//设置内容
+        .setMessageSize(14)//设置内容样式
         .setMessageColor("#666666")
-        .setButtonTextSize(14)//设置按钮
+        .setButtonTextSize(14)//设置按钮样式
         .setButtonThemeColor("#FF0000")
-        .setCancelText("取消")//设置文本
+        .setCancelText("取消")//设置按钮文本
         .setConfirmText("去打开"));
 ````
 ### Fully custom popovers
@@ -184,7 +184,30 @@ public void openAppDetails() {
       //When users click on the confirmation call easyPermission. GoToAppSettings (); The jump Settings page is complete
       }
 ````
-## 6.Other Matters needing attention
+## 6.Top prompt message style custom
+权限库用起来蛮方便的，但是顶部提示的背景颜色需要改一下，能不能设置一下文字大小、颜色、背景色？没问题，咱们支持顶部提示信息自定义样式。
+### Use the default classic style
+````java
+EasyPermissionHelper.getInstance().setTopAlertStyle(
+        new EasyTopAlertStyle(EasyTopAlertStyle.AlertStyle.STYLE_DEFAULT));
+````
+
+### Use custom prompt styles
+````java
+EasyPermissionHelper.getInstance().setTopAlertStyle(
+        new EasyTopAlertStyle(EasyTopAlertStyle.AlertStyle.STYLE_CUSTOM)
+        .setTitleGravity(Gravity.LEFT)//默认居左
+        .setTitleSize(16)//设置标题样式，默认16sp
+        .setTitleColor("#333333")
+        .setMessageSize(14)//设置内容样式，默认14sp
+        .setMessageColor("#333333")
+        .setBackgroundColor("#FFFFFF")//设置背景色，默认白色
+        .setBackgroundRadius(8)//设置背景圆角弧度，默认8dp
+        .setBackgroundElevation(6)//设置背景阴影范围，默认6dp
+        .setTopMargin(10)//设置距离顶部标题栏间距，默认10dp
+        .setSideMargin(10));//设置距离屏幕两边宽度，默认10dp
+````
+## 7.Other Matters needing attention
 1. mAlertInfowill not automatically pop up the permission description window if it is not set. In order to meet the current increasingly strict privacy policy, please take every permission description seriously<br>
 2. Permission applications are not recommended to be obtained in onNewIntent<br>
 3. Related log tag for "EasyPermissionLog", the default output not too much information, if need to debug. Please open the EasyPermissionConfigs setDebug (true)<br>
@@ -201,7 +224,7 @@ easyPermission.requestPermission();
 ````java
 easyPermission.mContext(mContext).requestPermission();
 ````
-## 5.Other tools
+## 8.Other tools
 ### Location Service Management :LocationTool
 After Android 9.0, even if you have obtained user authorization for location, you still cannot obtain location because the GPS location service is not enabled. Therefore, you need to process the location service. The LocationTool supports the following methods:<br> 
 1. isLocationEnabled() Obtain whether the current location service is enabled<br> 

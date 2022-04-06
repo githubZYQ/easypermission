@@ -102,7 +102,7 @@ public class EasyAppSettingDialogStyle {
     /**
      * 设置标题位置，默认居中 Gravity.CENTER
      * Sets the horizontal alignment of the text and the vertical gravity that will be used when there is extra space in the TextView beyond what is required for the text itself.
-     *      See Also:{@link android.view.Gravity}
+     *      See Also:{@link Gravity}
      * @param titleGravity
      */
     public EasyAppSettingDialogStyle setTitleGravity(int titleGravity) {

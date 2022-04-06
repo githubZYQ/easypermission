@@ -1,6 +1,8 @@
 package com.zyq.easypermission;
 
 import android.app.Activity;
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.zyq.easypermission.bean.PermissionAlertInfo;
@@ -57,6 +59,17 @@ public class EasyPermission {
     protected EasyPermission() {
     }
 
+    /**
+     * Returns a new EasyPermission object
+     * 返回一个EasyPermission的对象
+     *
+     * @return
+     */
+    public static EasyPermission build() {
+        return new EasyPermission();
+    }
+
+
     protected Activity getContext() {
         return mContext;
     }
@@ -69,6 +82,9 @@ public class EasyPermission {
      */
     public EasyPermission setContext(@NonNull Activity mContext) {
         this.mContext = mContext;
+        if(!EasyPermissionHelper.getInstance().alreadyInitialized){
+            EasyPermissionHelper.getInstance().init(mContext.getApplication());
+        }
         return this;
     }
 
@@ -126,7 +142,7 @@ public class EasyPermission {
         return this;
     }
 
-    protected EasyPermissionResult getResult() {
+    public EasyPermissionResult getResult() {
         return mResult;
     }
 
@@ -144,16 +160,6 @@ public class EasyPermission {
     }
 
     /**
-     * Returns a new EasyPermission object
-     * 返回一个EasyPermission的对象
-     *
-     * @return
-     */
-    public static EasyPermission build() {
-        return new EasyPermission();
-    }
-
-    /**
      * Set the code for the request
      * 设置请求的code
      *
@@ -161,8 +167,7 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission mRequestCode(int requestCode) {
-        this.mRequestCode = requestCode;
-        return this;
+        return setRequestCode(requestCode);
     }
 
     /**
@@ -173,9 +178,7 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission mResult(EasyPermissionResult result) {
-        this.mResult = result;
-        mResult.setEasyPermission(this);
-        return this;
+        return setResult(result);
     }
 
     /**
@@ -186,9 +189,9 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission mContext(@NonNull Activity context) {
-        this.mContext = context;
-        return this;
+        return setContext(context);
     }
+
 
     /**
      * set permissions
@@ -198,8 +201,7 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission mPerms(@NonNull String... permissions) {
-        this.mPerms = permissions;
-        return this;
+        return setPerms(permissions);
     }
 
     /**
@@ -210,8 +212,7 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission mAlertInfo(@NonNull PermissionAlertInfo mAlertInfo) {
-        this.mAlertInfo = mAlertInfo;
-        return this;
+        return setAlertInfo(mAlertInfo);
     }
 
     /**
@@ -239,16 +240,29 @@ public class EasyPermission {
 
     /**
      * Denied permission and forbidden to ask
-     * 权限被拒绝且禁止询问(本地记录了被禁止过的)
+     * 权限被拒绝且禁止询问过(本地记录了被禁止过的)，被禁止过的权限要先弹窗提醒，去设置页完成授权
      *
      *
      * @param permissions 有一个被禁止即返回true
      * @return
      */
-    protected boolean hasDismissAsk(@NonNull String... permissions) {
+    public boolean hasBeanDismissAsk(@NonNull String... permissions) {
         mPerms = permissions;
-        return EasyPermissionHelper.getInstance().hasDismissAsk(permissions);
+        return this.hasBeanDismissAsk();
     }
+
+    /**
+     * Denied permission and forbidden to ask
+     * 权限被拒绝且禁止询问过(本地记录了被禁止过的)，被禁止过的权限要先弹窗提醒，去设置页完成授权
+     *
+     *
+     * @return
+     */
+    public boolean hasBeanDismissAsk() {
+        return EasyPermissionHelper.getInstance().hasBeanDismissAsk(mPerms);
+    }
+
+
     /**
      * To apply for permission
      * 申请权限
@@ -257,8 +271,8 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission requestPermission(@NonNull String... permissions) {
-        this.requestPermission(mContext,permissions);
-        return this;
+        setPerms(permissions);
+        return requestPermission();
     }
 
     /**
@@ -270,43 +284,8 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission requestPermission(@NonNull Activity context, @NonNull String... permissions) {
-        if(context != null){
-            this.mContext = context;
-        }
-        mPerms = permissions;
-        if(permissions == null || permissions.length == 0){
-            EasyPermissionLog.d("permissions.length == 0");
-            return this;
-        }
-        if (mResult == null) {
-            //If you have access, you don't need to apply
-            //如果权限都有了，不需要申请
-            if (hasPermission(permissions)) {
-                //Do nothing
-                //什么也不需要做了
-            }else {
-                //Request permission but no permission result callback is required
-                //申请权限但是不需要权限结果回调
-                EasyPermissionHelper.getInstance().requestPermission(this);
-            }
-        }else{
-            if (hasPermission(permissions)) {
-                //If all permissions are available, call back directly
-                //如果权限都有了，直接回调
-                mResult.onPermissionsAccess(mRequestCode);
-            }else if(EasyPermissionHelper.getInstance().haveBeanDismissAsk(permissions)){
-                //If all permissions are dismissed to ask, call back directly
-                //如果权限被禁止，直接回调
-                mResult.onDismissAsk(mRequestCode, Arrays.asList(permissions));
-            }else {
-                this.mContext = context;
-                this.mPerms = permissions;
-                //执行申请权限
-                //Execute application authority
-                EasyPermissionHelper.getInstance().requestPermission(this);
-            }
-        }
-        return this;
+        setContext(context);
+        return requestPermission(permissions);
     }
 
     /**
@@ -319,10 +298,40 @@ public class EasyPermission {
      * @return
      */
     public EasyPermission requestPermission() {
-        if (mPerms == null) {
+        if(mPerms == null || mPerms.length == 0){
+            EasyPermissionLog.d("permissions.length == 0");
             return this;
         }
-        requestPermission(mPerms);
+        if (mResult == null) {
+            //If you have access, you don't need to apply
+            //如果权限都有了，不需要申请
+            if (hasPermission(mPerms)) {
+                //Do nothing
+                //什么也不需要做了
+            }else {
+                //Request permission but no permission result callback is required
+                //申请权限但是不需要权限结果回调
+                EasyPermissionHelper.getInstance().requestPermission(this);
+            }
+        }else{
+            if (hasPermission(mPerms)) {
+                //If all permissions are available, call back directly
+                //如果权限都有了，直接回调
+                mResult.onPermissionsAccess(mRequestCode);
+            }else if(hasBeanDismissAsk()){
+                //If all permissions are dismissed to ask, call back directly
+                //如果权限被禁止，直接回调
+                boolean onPermissionsDismiss = mResult.onDismissAsk(mRequestCode, Arrays.asList(mPerms));
+                if(!onPermissionsDismiss){
+                    //未拦截-继续回调失败
+                    onPermissionsDismiss();
+                }
+            }else {
+                //执行申请权限
+                //Execute application authority
+                EasyPermissionHelper.getInstance().requestPermission(this);
+            }
+        }
         return this;
     }
 
@@ -345,7 +354,7 @@ public class EasyPermission {
         }
         msg.append(message);
         this.mAlertInfo = new PermissionAlertInfo(title,msg.toString());
-        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
+        EasyPermissionHelper.getInstance().openAppDetails(this);
     }
 
     /**
@@ -355,14 +364,14 @@ public class EasyPermission {
      */
     public void openAppDetails(PermissionAlertInfo alertInfo) {
         this.mAlertInfo = alertInfo;
-        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
+        EasyPermissionHelper.getInstance().openAppDetails(this);
     }
     /**
      * Open the APP's permission details Settings
      * 打开 APP 的权限详情设置提示弹框
      */
     public void openAppDetails() {
-        EasyPermissionHelper.getInstance().openAppDetailsDefaultStyle(this);
+        EasyPermissionHelper.getInstance().openAppDetails(this);
     }
     /**
      * Skip To the Settings
@@ -370,6 +379,42 @@ public class EasyPermission {
      */
     public void goToAppSettings() {
         EasyPermissionHelper.getInstance().goToAppSettings(this);
+    }
+
+    /**
+     * Active callback authorization failure method
+     * 主动回调授权失败方法
+     */
+    public void onPermissionsDismiss(){
+        if(mResult != null){
+            mResult.onPermissionsDismiss(mRequestCode,Arrays.asList(mPerms));
+        }
+    }
+
+    /**
+     * Active callback authorization success method
+     * 主动回调授权成功方法
+     */
+    public void onPermissionsAccess(){
+        if(mResult != null){
+            mResult.onPermissionsAccess(mRequestCode);
+        }
+    }
+    /**
+     * Jump directly to app details setting page
+     * 直接跳转app详情设置页
+     */
+    public void skipSetting(@NonNull Activity mContext){
+        setContext(mContext);
+        skipSetting();
+    }
+
+    /**
+     * Jump directly to app details setting page
+     * 直接跳转app详情设置页
+     */
+    public void skipSetting(){
+        EasyPermissionHelper.getInstance().goToAppSettings(mRequestCode);
     }
 
 }

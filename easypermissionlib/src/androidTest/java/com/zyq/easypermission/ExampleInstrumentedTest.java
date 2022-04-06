@@ -1,4 +1,4 @@
-package cn.nova.easypermissionlib;
+package com.zyq.easypermission;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;

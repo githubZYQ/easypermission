@@ -83,14 +83,6 @@ public class LocationServiceActivity extends BaseActivity {
                         //Enabling the Location Service
                         openGps();
                     }
-
-                    @Override
-                    public boolean onDismissAsk(int requestCode, @NonNull List<String> permissions) {
-                        //提示用户权限的重要性
-                        //Indicates the importance of user permissions
-                        openAppDetails();
-                        return true;
-                    }
                 }).requestPermission();
     }
     /**

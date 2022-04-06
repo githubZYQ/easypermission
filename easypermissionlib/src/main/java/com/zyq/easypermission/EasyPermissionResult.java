@@ -100,4 +100,14 @@ public abstract class EasyPermissionResult {
             return mEasyPermission.isAutoOpenAppDetails();
         }
     }
+
+    /**
+     * Skip To the Settings
+     * 跳转设置页
+     */
+    public void goToAppSettings() {
+        if(mEasyPermission != null){
+            mEasyPermission.goToAppSettings();
+        }
+    }
 }

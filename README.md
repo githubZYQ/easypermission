@@ -10,7 +10,7 @@ requestPermission(Manifest.permission.CAMERA)<br>
 3. 增加特殊权限处理工具及演示（通知栏、悬浮窗、定位服务）
 4. EasyPermissionResult回调中可直接调用 openAppDetails();
 5. 增加setAutoOpenAppDetails,如果PermissionAlertInfo有值，则在被禁止时自动触发openAppDetails();
-5. 增加EasyAppSettingDialogStyle，说明弹窗支持自定义的文本颜色、大小、按钮文本和主题颜色等；
+6. 增加EasyAppSettingDialogStyle，说明弹窗支持自定义的文本颜色、大小、按钮文本和主题颜色等；
 ## 初衷
 * 以前你是怎么管理Android的权限的？<br> 
 1. 先判断有没有权限
@@ -40,7 +40,7 @@ allprojects {
 ## 第二步. 添加依赖
 ````groovy
 dependencies {
-	        implementation 'com.github.githubZYQ:easypermission:v2.0.8'
+	        implementation 'com.github.githubZYQ:easypermission:v2.0.13'
 	}
 ````
 ## 第三步. 初始化配置
@@ -144,7 +144,7 @@ easyPermission = EasyPermission.build()
             public void openAppDetails() {
                 //弹出默认的权限详情设置提示弹出框，在设置页完成允许操作后，会自动回调到onPermissionsAccess()
                 super.openAppDetails();
-                //如果样式不满意，可以弹出自定义明弹窗，在用户确认时调用easyPermission.goToAppSettings();完成跳转设置页
+                //如果样式不满意，可以弹出自定义明弹窗，在用户确认时调用 goToAppSettings();完成跳转设置页
             }).requestPermission();
 ````
 ## 5.弹窗样式自定义
@@ -157,18 +157,18 @@ EasyPermissionHelper.getInstance().setDialogStyle(new EasyAppSettingDialogStyle(
 ````java
 EasyPermissionHelper.getInstance().setDialogStyle(new EasyAppSettingDialogStyle(EasyAppSettingDialogStyle.DialogStyle.STYLE_SYSTEM));
 ````
-### 使用系统自定义弹窗样式
+### 使用自定义弹窗样式
 ````java
 EasyPermissionHelper.getInstance().setDialogStyle(
         new EasyAppSettingDialogStyle(EasyAppSettingDialogStyle.DialogStyle.STYLE_CUSTOM)
         .setTitleGravity(Gravity.CENTER)//设置居中
-        .setTitleSize(17)//设置标题
+        .setTitleSize(17)//设置标题样式
         .setTitleColor("#333333")
-        .setMessageSize(14)//设置内容
+        .setMessageSize(14)//设置内容样式
         .setMessageColor("#666666")
-        .setButtonTextSize(14)//设置按钮
+        .setButtonTextSize(14)//设置按钮样式
         .setButtonThemeColor("#FF0000")
-        .setCancelText("取消")//设置文本
+        .setCancelText("取消")//设置按钮文本
         .setConfirmText("去打开"));
 ````
 ### 完全自定义弹窗
@@ -181,7 +181,30 @@ public void openAppDetails() {
       //在用户点击确认时调用easyPermission.goToAppSettings();完成跳转设置页
       }
 ````
-## 6.其它注意事项
+## 6.顶部提示信息样式自定义
+权限库用起来蛮方便的，但是顶部提示的背景颜色需要改一下，能不能设置一下文字大小、颜色、背景色？没问题，咱们支持顶部提示信息自定义样式。
+### 使用默认经典样式
+````java
+EasyPermissionHelper.getInstance().setTopAlertStyle(
+        new EasyTopAlertStyle(EasyTopAlertStyle.AlertStyle.STYLE_DEFAULT));
+````
+
+### 使用自定义提示样式
+````java
+EasyPermissionHelper.getInstance().setTopAlertStyle(
+        new EasyTopAlertStyle(EasyTopAlertStyle.AlertStyle.STYLE_CUSTOM)
+        .setTitleGravity(Gravity.LEFT)//默认居左
+        .setTitleSize(16)//设置标题样式，默认16sp
+        .setTitleColor("#333333")
+        .setMessageSize(14)//设置内容样式，默认14sp
+        .setMessageColor("#333333")
+        .setBackgroundColor("#FFFFFF")//设置背景色，默认白色
+        .setBackgroundRadius(8)//设置背景圆角弧度，默认8dp
+        .setBackgroundElevation(6)//设置背景阴影范围，默认6dp
+        .setTopMargin(10)//设置距离顶部标题栏间距，默认10dp
+        .setSideMargin(10));//设置距离屏幕两边宽度，默认10dp
+````
+## 7.其它注意事项
 1. mAlertInfo不设置将不会自动弹出权限说明弹窗,为了满足当前的日益严格的隐私政策，请对认真对待每一个权限说明<br>
 2. 权限的申请不建议在onNewIntent中获取<br>
 3. 相关日志tag为"EasyPermissionLog",默认不输出太多信息，如果需要调试请打开EasyPermissionConfigs.setDebug(true)<br>
@@ -198,7 +221,7 @@ easyPermission.requestPermission();
 ````java
 easyPermission.mContext(mContext).requestPermission();
 ````
-## 5.其它工具
+## 8.其它工具
 ### 定位服务管理 EasyLocationTool
 Android 9.0以后即使已经获得了用户授权定位权限，由于GPS定位服务未打开，依然获取不到定位，所以还需要对定位服务进行处理，LocationTool支持以下方法：<br> 
 1. isLocationEnabled() 获取当前定位服务是否开启<br> 
@@ -215,6 +238,5 @@ Android 9.0以后即使已经获得了用户授权定位权限，由于GPS定位
 * 如果又更好的方案和思路，欢迎留言或者私信<br>
 * 祝所有人平安幸福、家庭和睦、身体健康。<br> 
 * 愿祖国早日完成统一大业，世界和平共处，繁荣发展。<br> 
-* 如果你需要使用[蓝灯](https://github.com/getlantern/lantern)去F&Q查资料，输入我的邀请码 **YPH99Z5** 来获得三个月的蓝灯专业版！[立即下载]( https://github.com/getlantern/forum)<br> 
 * 有任何疑问，可以及时反馈给我；<br> 
 * 如果你觉得还不错，请点赞o(￣▽￣)ｄ。
