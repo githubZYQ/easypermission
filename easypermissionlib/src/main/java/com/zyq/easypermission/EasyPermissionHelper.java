@@ -10,14 +10,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
+import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.text.TextUtils;
-import android.util.SparseArray;
 
 import com.tencent.mmkv.MMKV;
 import com.zyq.easypermission.bean.EasyAppSettingDialogStyle;
@@ -614,7 +613,7 @@ public class EasyPermissionHelper {
             EasyPermissionLog.d("权限已经被禁止询问");
             //保存被禁止的权限
             updateDismissState(permissions, true);
-            onPermissionsDismiss = permissionResult.onDismissAsk(requestCode, Arrays.asList(permissions));
+            onPermissionsDismiss = permissionResult.onDismissAsk(requestCode, Arrays.asList(permissions),true);
             //Permission not passed
             //权限未通过
             if (!onPermissionsDismiss) {
@@ -656,7 +655,7 @@ public class EasyPermissionHelper {
         //有权限被禁止询问
         if (!noask.isEmpty()) {
             EasyPermissionLog.d("权限现在被禁止询问");
-            onPermissionsDismiss = permissionResult.onDismissAsk(requestCode, noask);
+            onPermissionsDismiss = permissionResult.onDismissAsk(requestCode, noask,true);
         }
         // permission not passed
         //有权限未通过

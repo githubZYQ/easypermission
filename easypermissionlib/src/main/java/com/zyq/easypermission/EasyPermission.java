@@ -1,7 +1,6 @@
 package com.zyq.easypermission;
 
 import android.app.Activity;
-import android.content.Context;
 
 import androidx.annotation.NonNull;
 
@@ -42,9 +41,9 @@ public class EasyPermission {
     private PermissionAlertInfo mAlertInfo = null;
     /**
      * Automatically opens the APP's permission details Settings, when Permissions refused to be asked
-     * 当被禁止时，是否自动打开 APP 的权限详情设置提示弹框，默认为 false
+     * 当被禁止时，是否自动打开 APP 的权限详情设置提示弹框，默认为true
      */
-    private boolean autoOpenAppDetails = false;
+    private boolean autoOpenAppDetails = true;
     /**
      * Context in which permission is requested
      * 当前activity

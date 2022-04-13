@@ -40,7 +40,7 @@ allprojects {
 ## 第二步. 添加依赖
 ````groovy
 dependencies {
-	        implementation 'com.github.githubZYQ:easypermission:v2.0.13'
+	        implementation 'com.github.githubZYQ:easypermission:v2.0.15'
 	}
 ````
 ## 第三步. 初始化配置
@@ -118,7 +118,7 @@ EasyPermission.build().hasPermission(Manifest.permission.CAMERA);
 easyPermission = EasyPermission.build()
         .mRequestCode(RC_CODE_PERMISSION)
         .mPerms(Manifest.permission.CAMERA)
-        .setAutoOpenAppDetails(true) //被拒绝并禁止时是否自动弹窗提醒，默认是false
+        .setAutoOpenAppDetails(true) //被拒绝并禁止时是否自动弹窗提醒，默认是true
         .mAlertInfo( new PermissionAlertInfo("**需要申请摄像头权限",
         "**需要申请摄像头拍摄权限，以便您能够通过扫一扫实现扫描二维码；通过拍照更换您帐号的头像；拍照上传一些注册帐号需要的证件信息。拒绝或取消授权将影响以上功能，不影响使用其他服务"))
         .mResult(new EasyPermissionResult() {
