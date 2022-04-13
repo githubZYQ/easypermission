@@ -42,7 +42,7 @@ allprojects {
 ## Step 2. Add the dependency
 ````groovy
 dependencies {
-        implementation 'com.github.githubZYQ:easypermission:v2.0.13'
+        implementation 'com.github.githubZYQ:easypermission:v2.0.14'
 	}
 ````
 ## Step 3.	Initial Configuration.
@@ -113,7 +113,6 @@ In **onPermissionsDismiss** is the user rejecting permission feedback.
 ````
 ## 4.Sometimes the user rejects the permission, and the popup request is forbidden, what should I do?
 * In fact, in the new version you only need to dismissask text via **mAlertInfo**, which now handles pop-ups by default. That means you don't need to rewrite the ** onask ** and **openAppDetails** methods
-* If you want to handle the popover logic yourself, you can turn off the automatic processing logic by calling **setAutoOpenAppDetails=false**
 * As long as you dismissask ** in **onDismissAsk**, you'll get that forbidden result, and you'll want to note that **onDismissAsk** returns false** by default
 * If you modify **return true** yourself, you will have handled the forbidden result and will not call back **onPermissionsDismiss**
 * Call the **openAppDetails** method to pop up and direct the user to the Settings screen. OnPermissionsAccess will be automatically called back upon success
@@ -121,7 +120,7 @@ In **onPermissionsDismiss** is the user rejecting permission feedback.
 easyPermission = EasyPermission.build()
         .mRequestCode(RC_CODE_PERMISSION)
         .mPerms(Manifest.permission.CAMERA)
-        .setAutoOpenAppDetails(true)
+        .setAutoOpenAppDetails(true) //被拒绝并禁止时是否自动弹窗提醒，默认是false
         .mAlertInfo( new PermissionAlertInfo("**APP need to apply for camera permission",
         "**APP need to apply for camera shooting permission, so that you can scan the TWO-DIMENSIONAL code by scanning; Change the profile picture of your account by taking a photo; Take a photo and upload some id information needed to register an account. Refusal or cancellation of authorization will affect the above functions, but will not affect the use of other services"))
         .mResult(new EasyPermissionResult() {

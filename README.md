@@ -111,7 +111,6 @@ EasyPermission.build().hasPermission(Manifest.permission.CAMERA);
 ````
 ## 4.有时用户拒绝了权限，而且禁止了弹出询问，我该怎么办？想要在申请权限时弹窗告知用户权限的必要性怎么办？
 * 事实上，在新版本只需要通过**mAlertInfo**设置了提示文本，现在已经默认处理了弹窗的展示，也就是说不需要去重写**onDismissAsk**和**openAppDetails**方法了
-* 如果想要自己处理弹窗逻辑，可以通过**setAutoOpenAppDetails=false**关闭自动处理的逻辑 
 * 只要在**onDismissAsk**中，就可以得到被禁止的结果，同时你要注意**onDismissAsk**默认返回**false**
 * 如果你自己修改**return true**，将视为已经处理了禁止结果，将不再回调**onPermissionsDismiss**这个方法
 * 调用**openAppDetails**方法，可以弹窗引导用户去设置界面设置权限，成功后会自动回调onPermissionsAccess
@@ -119,7 +118,7 @@ EasyPermission.build().hasPermission(Manifest.permission.CAMERA);
 easyPermission = EasyPermission.build()
         .mRequestCode(RC_CODE_PERMISSION)
         .mPerms(Manifest.permission.CAMERA)
-        .setAutoOpenAppDetails(true)
+        .setAutoOpenAppDetails(true) //被拒绝并禁止时是否自动弹窗提醒，默认是false
         .mAlertInfo( new PermissionAlertInfo("**需要申请摄像头权限",
         "**需要申请摄像头拍摄权限，以便您能够通过扫一扫实现扫描二维码；通过拍照更换您帐号的头像；拍照上传一些注册帐号需要的证件信息。拒绝或取消授权将影响以上功能，不影响使用其他服务"))
         .mResult(new EasyPermissionResult() {
