@@ -11,6 +11,8 @@ requestPermission(Manifest.permission.CAMERA)<br>
 4. EasyPermissionResult回调中可直接调用 openAppDetails();
 5. 增加setAutoOpenAppDetails,如果PermissionAlertInfo有值，则在被禁止时自动触发openAppDetails();
 6. 增加EasyAppSettingDialogStyle，说明弹窗支持自定义的文本颜色、大小、按钮文本和主题颜色等；
+## 效果
+![展示效果](https://img-blog.csdnimg.cn/img_convert/9fd723f20fa0a3deb7105513e6fb7617.gif "这是展示效果")
 ## 初衷
 * 以前你是怎么管理Android的权限的？<br> 
 1. 先判断有没有权限
